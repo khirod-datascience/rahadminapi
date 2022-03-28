@@ -21,7 +21,7 @@ app.config["MONGODB_HOST"]= DB_URI
 db= MongoEngine()
 db.init_app(app)
 
-class hospital_data(db.Document):
+class hospitals(db.Document):
     _id=db.ObjectIdField()
     address=db.StringField()
     contact_number=db.StringField()
@@ -61,11 +61,11 @@ def api_hospitals(id):
     if request.method == "GET":
         # hospitals=[]
         # hospital_name="APOLLO HOSPITAL"
-        h=hospital_data.objects(_id=id).first()
+        h=hospitals.objects(_id=id).first()
         return make_response(jsonify(h), 200)
     elif request.method == "PUT":
         body = request.get_json()
-        hosp_obj = hospital_data.objects(_id=id)
+        hosp_obj = hospitals.objects(_id=id)
         hosp_obj.update(**body)
         return jsonify({'saved':'data updated'}), 200
 
