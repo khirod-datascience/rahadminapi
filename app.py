@@ -63,12 +63,15 @@ def api_hospitals(id):
         # hospitals=[]
         # hospital_name="APOLLO HOSPITAL"
         h=hospitals.objects(_id=id).first()
-        return make_response(jsonify(h), 200)
+        response=jsonify(h)
+        response.headers.add("Access-Control-Allow-Origin", "*")
     elif request.method == "PUT":
         body = request.get_json()
         hosp_obj = hospitals.objects(_id=id)
         hosp_obj.update(**body)
-        return jsonify({'saved':'data updated'}), 200
+        response=jsonify({'saved':'data updated'})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 # @app.route('/api/image/<id>', methods=['POST'])
