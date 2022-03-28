@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, make_response, request, jsonify
 from flask_mongoengine import MongoEngine
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app= Flask(__name__)
 # FLASK_APP=app
-CORS(app)
-
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)
 
 @app.route("/")
 def home():
@@ -57,6 +57,7 @@ class hospitals(db.Document):
         }
 
 @app.route('/api/hospital/<id>', methods =["PUT", "GET"])
+@cross_origin()
 def api_hospitals(id):
     if request.method == "GET":
         # hospitals=[]
