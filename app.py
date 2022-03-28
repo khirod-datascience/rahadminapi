@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, make_response, request, jsonify
 from flask_mongoengine import MongoEngine
-
+from flask_cors import CORS
 
 app= Flask(__name__)
 # FLASK_APP=app
+CORS(app)
+
 
 @app.route("/")
 def home():
@@ -15,10 +17,11 @@ def home():
 DB_URI = "mongodb+srv://Rah_admin:Rah123@cluster0.psrao.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-mq7cjd-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
 app.config["MONGODB_HOST"]= DB_URI
 
+
 db= MongoEngine()
 db.init_app(app)
 
-class hospitals(db.Document):
+class hospital_data(db.Document):
     _id=db.ObjectIdField()
     address=db.StringField()
     contact_number=db.StringField()
@@ -58,11 +61,11 @@ def api_hospitals(id):
     if request.method == "GET":
         # hospitals=[]
         # hospital_name="APOLLO HOSPITAL"
-        h=hospitals.objects(_id=id).first()
+        h=hospital_data.objects(_id=id).first()
         return make_response(jsonify(h), 200)
     elif request.method == "PUT":
         body = request.get_json()
-        hosp_obj = hospitals.objects(_id=id)
+        hosp_obj = hospital_data.objects(_id=id)
         hosp_obj.update(**body)
         return jsonify({'saved':'data updated'}), 200
 
