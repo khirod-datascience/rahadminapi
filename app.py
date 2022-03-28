@@ -4,8 +4,9 @@ from flask_cors import CORS, cross_origin
 
 app= Flask(__name__)
 # FLASK_APP=app
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-cors = CORS(app)
+# cors = CORS(app)
 
 @app.route("/")
 def home():
